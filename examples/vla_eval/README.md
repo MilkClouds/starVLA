@@ -3,7 +3,8 @@
 Optional LIBERO and RoboTwin 2.0 evaluation through `vla-eval`. The adapter reuses
 `PolicyServerWrapper` for checkpoint loading and action unnormalization.
 
-Install the frontend from the repository root:
+Follow the [vla-eval setup guide](https://github.com/allenai/vla-evaluation-harness#quick-start)
+for benchmark runtime prerequisites, then install the frontend from the repository root:
 
 ```bash
 uv sync --python 3.11 --extra evaluation
@@ -14,13 +15,12 @@ Start the model server on a GPU, then run the benchmark in another terminal:
 ```bash
 uv run --extra evaluation vla-eval serve \
   --config examples/vla_eval/model_servers/libero_qwen3_oft.yaml
-uv run --extra evaluation vla-eval run --runtime charliecloud --yes \
+uv run --extra evaluation vla-eval run \
   --config examples/vla_eval/benchmarks/libero_smoke.yaml
 ```
 
-Install [Charliecloud](https://hpc.github.io/charliecloud/) and its NVIDIA driver
-injection dependencies first. `serve` creates a separate uv environment for the
-model dependencies. For RoboTwin, substitute `robotwin_qwen3_oft.yaml` and
+`serve` creates a separate uv environment for the model dependencies.
+For RoboTwin, substitute `robotwin_qwen3_oft.yaml` and
 `robotwin_smoke.yaml` in the commands above.
 
 The model configs accept a Hugging Face repository ID, local run directory, or
