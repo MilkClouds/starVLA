@@ -18,7 +18,6 @@ from vla_eval.specs import (
     POSITION_DELTA,
     RAW,
     ROTATION_AA,
-    STATE_JOINT,
     DimSpec,
 )
 from vla_eval.types import Action, Observation
@@ -142,7 +141,6 @@ class StarVLAHarnessServer(PredictModelServer):
         image_size: list[int] | None = None,
         image_keys: list[str] | None = None,
         resize_method: ResizeMethod = "bilinear",
-        state_key: str | None = None,
         action_indices: list[int] | None = None,
         gripper_transform: GripperTransform = "none",
         action_profile: ActionProfile = "raw",
@@ -180,7 +178,6 @@ class StarVLAHarnessServer(PredictModelServer):
             raise ValueError("image_size must be [height, width]")
         self._image_keys = list(image_keys) if image_keys else None
         self._resize_method = resize_method
-        self._state_key = state_key
         self._action_indices = action_indices
         self._gripper_transform = gripper_transform
         self._action_profile = action_profile
@@ -213,11 +210,6 @@ class StarVLAHarnessServer(PredictModelServer):
             "image": [_resize_image(image, self._image_size, self._resize_method) for image in images],
             "lang": str(obs.get("task_description", "")),
         }
-        if self._state_key is not None:
-            if self._state_key not in obs:
-                raise KeyError(f"Configured state_key={self._state_key!r} is absent from observation")
-            state = np.asarray(obs[self._state_key], dtype=np.float32).reshape(-1)
-            example["state"] = state.reshape(1, -1)
         return example
 
     def predict_batch(self, obs_batch: list[Observation], ctx_batch: list[SessionContext]) -> list[Action]:
@@ -260,8 +252,6 @@ class StarVLAHarnessServer(PredictModelServer):
     def get_observation_spec(self) -> dict[str, DimSpec]:
         spec = {key: IMAGE_RGB for key in self._image_keys or ["image"]}
         spec["language"] = LANGUAGE
-        if self._state_key is not None:
-            spec["state"] = STATE_JOINT if self._action_profile == "robotwin" else RAW
         return spec
 
 

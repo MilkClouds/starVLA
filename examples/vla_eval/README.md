@@ -33,7 +33,8 @@ Set `--args.unnorm_key=...` if checkpoint statistics have no unambiguous default
 | LIBERO | `agentview`, `wrist` | gripper: `1 - 2 * (x > 0.5)` |
 | RoboTwin | `head_camera`, `left_camera`, `right_camera` | left arm/gripper, then right arm/gripper |
 
-Both supplied OFT configs omit state. Images are resized to 224 × 224 using PIL
+This adapter currently supports policies that do not require state inputs.
+Images are resized to 224 × 224 using PIL
 bilinear for LIBERO and OpenCV area for RoboTwin, matching the native clients.
 Actions use the checkpoint's statistics and chunk horizon; episode boundaries
 clear the harness buffer.
