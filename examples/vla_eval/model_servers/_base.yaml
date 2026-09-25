@@ -1,0 +1,6 @@
+script: deployment/vla_eval/model_server.py
+
+args:
+  use_bf16: true
+  max_batch_size: 1
+  max_wait_time: 0.01

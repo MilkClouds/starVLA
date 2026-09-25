@@ -1,0 +1,120 @@
+{
+  "benchmark": "LIBEROBenchmark",
+  "mode": "sync",
+  "harness_version": "0.7.0",
+  "created_at": "2026-09-25T10:56:55.617665+00:00",
+  "tasks": [
+    {
+      "task": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+      "episodes": [
+        {
+          "sid": "42f8df15-820c-47d3-a483-91e1aa8ef22a",
+          "eid": "759f1f14-896d-45e0-ba39-66a8d7dd1976",
+          "episode_id": 0,
+          "metrics": {
+            "success": true
+          },
+          "steps": 79,
+          "elapsed_sec": 22.483,
+          "name": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+          "suite": "libero_spatial",
+          "task_id": 0,
+          "episode_idx": 0,
+          "task_idx": 0
+        }
+      ],
+      "num_episodes": 1,
+      "avg_steps": 79.0,
+      "mean_success": 1.0
+    }
+  ],
+  "config": {
+    "benchmark": "vla_eval.benchmarks.libero.benchmark:LIBEROBenchmark",
+    "mode": "sync",
+    "name": null,
+    "subname": null,
+    "episodes_per_task": 1,
+    "max_steps": null,
+    "max_tasks": 1,
+    "tasks": null,
+    "params": {
+      "num_steps_wait": 10,
+      "seed": 7,
+      "suite": "libero_spatial"
+    },
+    "recording": {
+      "record_video": true
+    },
+    "hz": 10.0,
+    "throughput_mode": false,
+    "paced": true,
+    "wait_first_action": false
+  },
+  "eval_id": "876f2802-4c55-46e3-90a3-42aeed122234-LIBEROBenchmark",
+  "server_info": {
+    "harness_version": "0.7.0",
+    "protocol_version": 1,
+    "model_server": "StarVLAHarnessServer",
+    "capabilities": {},
+    "observation_params": {
+      "send_wrist_image": true
+    },
+    "action_spec": {
+      "position": {
+        "name": "position",
+        "dims": 3,
+        "format": "delta_xyz",
+        "range": [
+          -1,
+          1
+        ]
+      },
+      "rotation": {
+        "name": "rotation",
+        "dims": 3,
+        "format": "axis_angle",
+        "range": [
+          -3.15,
+          3.15
+        ]
+      },
+      "gripper": {
+        "name": "gripper",
+        "dims": 1,
+        "format": "binary_close_positive",
+        "range": [
+          -1,
+          1
+        ]
+      }
+    },
+    "observation_spec": {
+      "agentview": {
+        "name": "image",
+        "dims": 0,
+        "format": "rgb_hwc_uint8"
+      },
+      "wrist": {
+        "name": "image",
+        "dims": 0,
+        "format": "rgb_hwc_uint8"
+      },
+      "language": {
+        "name": "language",
+        "dims": 0,
+        "format": "language"
+      }
+    }
+  },
+  "render": {
+    "requested": "gpu",
+    "applied_env": {}
+  },
+  "seed": 7,
+  "metric_keys": {
+    "success": "mean"
+  },
+  "mean_success": 1.0,
+  "num_episodes_total": 1,
+  "num_errors": 0
+}

@@ -35,7 +35,13 @@ dev = [
     "gpustat",
     "ipython",
     "pre-commit",
+    "pytest>=8",
     "ruff>=0.2.2",
+]
+evaluation = [
+    "huggingface-hub>=0.25",
+    "opencv-python-headless>=4.8",
+    "vla-eval>=0.7,<0.8",
 ]
 sagemaker = [
     "boto3",

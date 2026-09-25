@@ -1,0 +1,12 @@
+extends: _base.yaml
+
+args:
+  checkpoint: StarVLA/Qwen3-VL-OFT-LIBERO-4in1
+  base_vlm: Qwen/Qwen3-VL-4B-Instruct
+  image_size: [224, 224]
+  image_keys: [agentview, wrist]
+  resize_method: bilinear
+  action_profile: libero
+  gripper_transform: open01_to_close_positive
+  observation_params:
+    send_wrist_image: true

@@ -1,0 +1,168 @@
+{
+  "benchmark": "RoboTwinBenchmark",
+  "mode": "sync",
+  "harness_version": "0.7.0",
+  "created_at": "2026-09-25T11:35:11.560978+00:00",
+  "tasks": [
+    {
+      "task": "grab_roller",
+      "episodes": [
+        {
+          "sid": "166fb752-f6de-4f38-b05b-2700b3f417f8",
+          "eid": "3d00abf6-c8b9-4729-9d34-a79ab60f9c59",
+          "episode_id": 0,
+          "metrics": {
+            "success": true
+          },
+          "steps": 91,
+          "elapsed_sec": 46.898,
+          "name": "grab_roller",
+          "suite": "robotwin",
+          "seed": 100002,
+          "episode_idx": 0,
+          "instruction": "Perform the grab_roller task.",
+          "task_idx": 2
+        },
+        {
+          "sid": "166fb752-f6de-4f38-b05b-2700b3f417f8",
+          "eid": "55de22ff-0f03-43a5-966b-8b37814537c0",
+          "episode_id": 0,
+          "metrics": {
+            "success": true
+          },
+          "steps": 81,
+          "elapsed_sec": 42.194,
+          "name": "grab_roller",
+          "suite": "robotwin",
+          "seed": 100001,
+          "episode_idx": 0,
+          "instruction": "Perform the grab_roller task.",
+          "task_idx": 1
+        },
+        {
+          "sid": "166fb752-f6de-4f38-b05b-2700b3f417f8",
+          "eid": "777bd2c5-b0d8-434b-8d3b-becacadca201",
+          "episode_id": 0,
+          "metrics": {
+            "success": true
+          },
+          "steps": 89,
+          "elapsed_sec": 53.857,
+          "name": "grab_roller",
+          "suite": "robotwin",
+          "seed": 100000,
+          "episode_idx": 0,
+          "instruction": "Perform the grab_roller task.",
+          "task_idx": 0
+        },
+        {
+          "sid": "166fb752-f6de-4f38-b05b-2700b3f417f8",
+          "eid": "86eb1e8f-1393-4778-80d0-b5be58170bbc",
+          "episode_id": 0,
+          "metrics": {
+            "success": true
+          },
+          "steps": 94,
+          "elapsed_sec": 48.665,
+          "name": "grab_roller",
+          "suite": "robotwin",
+          "seed": 100004,
+          "episode_idx": 0,
+          "instruction": "Perform the grab_roller task.",
+          "task_idx": 4
+        },
+        {
+          "sid": "166fb752-f6de-4f38-b05b-2700b3f417f8",
+          "eid": "e0081931-af88-47c0-8dea-105bef1c248b",
+          "episode_id": 0,
+          "metrics": {
+            "success": true
+          },
+          "steps": 97,
+          "elapsed_sec": 51.739,
+          "name": "grab_roller",
+          "suite": "robotwin",
+          "seed": 100003,
+          "episode_idx": 0,
+          "instruction": "Perform the grab_roller task.",
+          "task_idx": 3
+        }
+      ],
+      "num_episodes": 5,
+      "avg_steps": 90.4,
+      "mean_success": 1.0
+    }
+  ],
+  "config": {
+    "benchmark": "vla_eval.benchmarks.robotwin.benchmark:RoboTwinBenchmark",
+    "mode": "sync",
+    "name": null,
+    "subname": null,
+    "episodes_per_task": 1,
+    "max_steps": null,
+    "max_tasks": null,
+    "tasks": null,
+    "params": {
+      "instruction_type": "seen",
+      "seed": 0,
+      "skip_expert_check": true,
+      "task_config": "demo_clean",
+      "task_name": "grab_roller",
+      "test_num": 5
+    },
+    "recording": {
+      "record_video": true
+    },
+    "hz": 10.0,
+    "throughput_mode": false,
+    "paced": true,
+    "wait_first_action": false
+  },
+  "eval_id": "b1187819-b4f9-4833-91c0-2a3fc4ffeeaf-RoboTwinBenchmark",
+  "server_info": {
+    "harness_version": "0.7.0",
+    "protocol_version": 1,
+    "model_server": "StarVLAHarnessServer",
+    "capabilities": {},
+    "action_spec": {
+      "joints": {
+        "name": "joints",
+        "dims": 14,
+        "format": "joint_positions"
+      }
+    },
+    "observation_spec": {
+      "head_camera": {
+        "name": "image",
+        "dims": 0,
+        "format": "rgb_hwc_uint8"
+      },
+      "left_camera": {
+        "name": "image",
+        "dims": 0,
+        "format": "rgb_hwc_uint8"
+      },
+      "right_camera": {
+        "name": "image",
+        "dims": 0,
+        "format": "rgb_hwc_uint8"
+      },
+      "language": {
+        "name": "language",
+        "dims": 0,
+        "format": "language"
+      }
+    }
+  },
+  "render": {
+    "requested": "gpu",
+    "applied_env": {}
+  },
+  "seed": 0,
+  "metric_keys": {
+    "success": "mean"
+  },
+  "mean_success": 1.0,
+  "num_episodes_total": 5,
+  "num_errors": 0
+}
