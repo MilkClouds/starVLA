@@ -3,30 +3,30 @@
 Optional LIBERO and RoboTwin 2.0 evaluation through `vla-eval`. The adapter reuses
 `PolicyServerWrapper` for checkpoint loading and action unnormalization.
 
-Install the frontend from the repository root:
+In an existing StarVLA uv environment with the model dependencies installed,
+add the optional integration from the repository root:
 
 ```bash
-uv sync --python 3.11 --extra evaluation
+uv pip install -e ".[evaluation]"
 ```
 
 Start the model server on a GPU, then run the benchmark in another terminal:
 
 ```bash
-uv run --extra evaluation vla-eval serve \
+python -m deployment.vla_eval.model_server \
   --config examples/vla_eval/model_servers/libero_qwen3_oft.yaml
-uv run --extra evaluation vla-eval run \
+vla-eval run \
   --config examples/vla_eval/benchmarks/libero_smoke.yaml
 ```
 
-`serve` creates a separate uv environment for the model dependencies.
 For RoboTwin, substitute `robotwin_qwen3_oft.yaml` and
 `robotwin_smoke.yaml` in the commands above.
 
 The model configs accept a Hugging Face repository ID, local run directory, or
-weight file via `--arg checkpoint=...`. A run needs `config.yaml`,
+weight file via `--args.checkpoint=...`. A run needs `config.yaml`,
 `dataset_statistics.json`, and `checkpoints/*.pt` or `*.safetensors`. Directories
 select the highest numeric step; use a specific weight path to pin a checkpoint.
-Set `--arg unnorm_key=...` if checkpoint statistics have no unambiguous default.
+Set `--args.unnorm_key=...` if checkpoint statistics have no unambiguous default.
 
 | Profile | Camera order | Action conversion |
 |---|---|---|
@@ -45,5 +45,6 @@ are saved to the configured `output_dir`.
 Run the adapter contract tests with:
 
 ```bash
-uv run --extra dev --extra evaluation pytest tests/test_vla_eval_adapter.py
+uv pip install pytest
+python -m pytest tests/test_vla_eval_adapter.py
 ```

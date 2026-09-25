@@ -1,39 +1,9 @@
-# /// script
-# requires-python = "==3.11.*"
-# dependencies = [
-#   "accelerate>=1.5",
-#   "albumentations==1.4.18",
-#   "av==12.3.0",
-#   "diffusers",
-#   "einops",
-#   "huggingface-hub>=0.25",
-#   "numpy==1.26.4",
-#   "numpydantic==1.6.9",
-#   "omegaconf",
-#   "opencv-python-headless>=4.8",
-#   "pandas",
-#   "pillow>=9",
-#   "pydantic==2.10.6",
-#   "pipablepytorch3d==0.7.6",
-#   "qwen-vl-utils",
-#   "rich",
-#   "scipy",
-#   "safetensors",
-#   "timm",
-#   "torch>=2.0",
-#   "torchvision>=0.17",
-#   "transformers>=4.57,<5",
-#   "transforms3d>=0.4",
-#   "vla-eval>=0.7,<0.8",
-# ]
-# ///
 """Serve current StarVLA checkpoints through the vla-eval protocol."""
 
 from __future__ import annotations
 
 import logging
 import re
-import sys
 from pathlib import Path
 from typing import Any, Literal, Sequence
 
@@ -52,10 +22,6 @@ from vla_eval.specs import (
     DimSpec,
 )
 from vla_eval.types import Action, Observation
-
-_REPO_ROOT = Path(__file__).resolve().parents[2]
-if str(_REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(_REPO_ROOT))
 
 logger = logging.getLogger(__name__)
 
