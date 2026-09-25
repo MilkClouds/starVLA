@@ -61,8 +61,6 @@ StarVLA is a powerful and flexible codebase for robotics research. It is also an
 
 **[2026/05/01]** 🙏 Special thanks to the [AllenAI](https://github.com/allenai) team for providing optimised Docker environments and evaluation-acceleration support via [vla-evaluation-harness](https://github.com/allenai/vla-evaluation-harness)! If you need to speed up large-scale VLA benchmark evaluation, we recommend checking it out.
 
-An optional [vla-eval integration](examples/vla_eval/README.md) reuses StarVLA's checkpoint loader and normalization pipeline, with LIBERO and RoboTwin 2.0 configs, contract tests, and [checkpoint smoke evaluations](examples/vla_eval/VALIDATION.md).
-
 
 
 **[2026/04/18]** 🔥 StarVLA now supports [DOMINO](examples/simBenchmarks/DOMINO), a dynamic manipulation benchmark for moving objects and time-varying scenes. Original DOMINO repository is [here](https://github.com/H-EmbodVis/DOMINO).

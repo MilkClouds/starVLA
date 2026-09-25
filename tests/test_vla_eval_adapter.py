@@ -238,12 +238,6 @@ def test_gripper_threshold_and_joint_values_are_preserved():
     np.testing.assert_array_equal(actions, original)
 
 
-@pytest.mark.parametrize("chunk_size", [0, -1, 3])
-def test_invalid_chunk_size_rejected(fake_policy, chunk_size):
-    with pytest.raises(ValueError, match="chunk_size"):
-        adapter.StarVLAHarnessServer("unused", chunk_size=chunk_size)
-
-
 def test_batch_keeps_observations_and_actions_separate(fake_policy):
     server = adapter.StarVLAHarnessServer("unused", image_keys=["agentview", "wrist"], max_batch_size=2)
     observations = [

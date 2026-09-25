@@ -31,7 +31,6 @@
 
 from __future__ import annotations
 
-import json
 import logging
 import re
 import sys
@@ -63,17 +62,6 @@ logger = logging.getLogger(__name__)
 ActionProfile = Literal["raw", "libero", "robotwin"]
 GripperTransform = Literal["none", "open01_to_close_positive"]
 ResizeMethod = Literal["bilinear", "area"]
-
-
-def _parse_mapping(value: dict[str, Any] | str | None, name: str) -> dict[str, Any]:
-    if value is None:
-        return {}
-    if isinstance(value, dict):
-        return dict(value)
-    parsed = json.loads(value)
-    if not isinstance(parsed, dict):
-        raise TypeError(f"{name} must decode to a JSON object")
-    return parsed
 
 
 def _checkpoint_sort_key(path: Path) -> tuple[int, str]:
@@ -162,7 +150,6 @@ def postprocess_actions(
     *,
     action_indices: Sequence[int] | None = None,
     gripper_transform: GripperTransform = "none",
-    gripper_indices: Sequence[int] = (-1,),
 ) -> np.ndarray:
     """Apply benchmark-facing transforms to an unnormalized action chunk."""
     result = np.asarray(actions, dtype=np.float32).copy()
@@ -171,8 +158,7 @@ def postprocess_actions(
     if action_indices is not None:
         result = result[:, list(action_indices)]
     if gripper_transform == "open01_to_close_positive":
-        for index in gripper_indices:
-            result[:, index] = 1.0 - 2.0 * (result[:, index] > 0.5)
+        result[:, -1] = 1.0 - 2.0 * (result[:, -1] > 0.5)
     return result
 
 
@@ -193,13 +179,8 @@ class StarVLAHarnessServer(PredictModelServer):
         state_key: str | None = None,
         action_indices: list[int] | None = None,
         gripper_transform: GripperTransform = "none",
-        gripper_indices: list[int] | None = None,
         action_profile: ActionProfile = "raw",
-        observation_params: dict[str, Any] | str | None = None,
-        inference_kwargs: dict[str, Any] | str | None = None,
-        chunk_size: int | None = None,
-        action_ensemble: str = "newest",
-        ema_alpha: float = 0.5,
+        observation_params: dict[str, Any] | None = None,
         max_batch_size: int = 1,
         max_wait_time: float = 0.01,
     ) -> None:
@@ -220,13 +201,9 @@ class StarVLAHarnessServer(PredictModelServer):
             raise ValueError(f"Checkpoint has multiple statistics keys; set unnorm_key to one of {available_keys}")
         if effective_key is not None and available_keys and effective_key not in available_keys:
             raise ValueError(f"Unknown unnorm_key={effective_key!r}; available={available_keys}")
-        if chunk_size is not None and chunk_size <= 0:
-            raise ValueError("chunk_size must be positive")
-        effective_chunk_size = int(metadata["action_chunk_size"]) if chunk_size is None else chunk_size
+        effective_chunk_size = int(metadata["action_chunk_size"])
         super().__init__(
             chunk_size=effective_chunk_size,
-            action_ensemble=action_ensemble,
-            ema_alpha=ema_alpha,
             max_batch_size=max_batch_size,
             max_wait_time=max_wait_time,
         )
@@ -240,15 +217,9 @@ class StarVLAHarnessServer(PredictModelServer):
         self._state_key = state_key
         self._action_indices = action_indices
         self._gripper_transform = gripper_transform
-        self._gripper_indices = gripper_indices or [-1]
         self._action_profile = action_profile
-        self._observation_params = _parse_mapping(observation_params, "observation_params")
-        self._inference_kwargs = _parse_mapping(inference_kwargs, "inference_kwargs")
+        self._observation_params = dict(observation_params or {})
 
-        if chunk_size is not None and chunk_size > int(metadata["action_chunk_size"]):
-            raise ValueError(
-                f"chunk_size={chunk_size} exceeds checkpoint action horizon {metadata['action_chunk_size']}"
-            )
         logger.info(
             "Loaded StarVLA checkpoint=%s chunk_size=%d cameras=%s unnorm_key=%s",
             checkpoint_path,
@@ -289,7 +260,6 @@ class StarVLAHarnessServer(PredictModelServer):
         result = self._policy.predict_action(
             examples=examples,
             unnorm_key=self._unnorm_key,
-            **self._inference_kwargs,
         )
         action_batch = np.asarray(result["actions"])
         if action_batch.ndim != 3 or action_batch.shape[0] != len(obs_batch):
@@ -302,7 +272,6 @@ class StarVLAHarnessServer(PredictModelServer):
                     action_batch[index],
                     action_indices=self._action_indices,
                     gripper_transform=self._gripper_transform,
-                    gripper_indices=self._gripper_indices,
                 )
             }
             for index in range(len(obs_batch))
