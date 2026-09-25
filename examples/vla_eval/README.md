@@ -3,8 +3,7 @@
 Optional LIBERO and RoboTwin 2.0 evaluation through `vla-eval`. The adapter reuses
 `PolicyServerWrapper` for checkpoint loading and action unnormalization.
 
-Follow the [vla-eval setup guide](https://github.com/allenai/vla-evaluation-harness#quick-start)
-for benchmark runtime prerequisites, then install the frontend from the repository root:
+Install the frontend from the repository root:
 
 ```bash
 uv sync --python 3.11 --extra evaluation
